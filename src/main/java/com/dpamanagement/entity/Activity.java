@@ -91,6 +91,7 @@ public class Activity implements Serializable {
     private List<Participant> participantList = new ArrayList <> ();
 
     @OneToOne
+    //@JoinColumn(name = "exercice_id", referencedColumnName = "id")
     private Exercice exercise;
 
     public void setId(Long id) {

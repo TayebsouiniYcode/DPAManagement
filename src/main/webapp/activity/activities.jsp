@@ -1,7 +1,12 @@
 <%@ page import="com.dpamanagement.entity.Activity" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.dpamanagement.entity.Exercice" %>
+<%@ page import="com.dpamanagement.entity.Participant" %>
 <%@ include file="../components/dashHeader.jsp"%>
 <% List < Activity > activityList = (List<Activity>) request.getAttribute ( "activityList" ); %>
+<% List < Exercice > exerciceList = (List<Exercice>) request.getAttribute ( "exerciceList" ); %>
+<% List < Participant > participantList = (List<Participant>) request.getAttribute ( "participantList" ); %>
+
 
 <%--
   Created by IntelliJ IDEA.
@@ -164,6 +169,14 @@
                     <div class="form-group">
                         <label for="title" class="form-label">Title</label>
                         <textarea name="title" id="_title" cols="30" rows="4" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exercice">Exercice</label>
+                        <select class="form-control" id="exercice" name="exercice">
+                            <% for ( Exercice exercice : exerciceList ) { %>
+                                <option value="<%=exercice.getId()%>"><%=exercice.getDescription()%></option>
+                            <% } %>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

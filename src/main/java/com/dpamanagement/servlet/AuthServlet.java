@@ -2,7 +2,11 @@ package com.dpamanagement.servlet;
 
 import com.dpamanagement.entity.Role;
 import com.dpamanagement.entity.Users;
+import com.dpamanagement.service.ActivityService;
+import com.dpamanagement.service.ExerciceService;
 import com.dpamanagement.service.UserService;
+import com.dpamanagement.service.implementation.ActivityServiceImpl;
+import com.dpamanagement.service.implementation.ExerciceServiceImp;
 import com.dpamanagement.service.implementation.UserServiceImpl;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -13,8 +17,8 @@ import java.io.IOException;
 @WebServlet(name = "AuthServlet", urlPatterns ={ "/register", "/login"})
 public class AuthServlet extends HttpServlet {
     UserService userService = new UserServiceImpl ();
-    //ActivityService activityService = new ActivityServiceImpl ();
-    //ExerciceService exerciceService = new ExerciceServiceImp ();
+    ActivityService activityService = new ActivityServiceImpl ();
+    ExerciceService exerciceService = new ExerciceServiceImp ();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath ();
@@ -71,13 +75,13 @@ public class AuthServlet extends HttpServlet {
                         session.setAttribute("user", user);
                         session.setAttribute ( "role", user.getRole ().getName () );
 
-                        //int numberOfUsers = userService.count();
-                        //int numberOfActivities = activityService.count();
-                        //int numberOfExercice = exerciceService.count();
+                        int numberOfUsers = userService.count();
+                        int numberOfActivities = activityService.count();
+                        int numberOfExercice = exerciceService.count();
 
-                        request.setAttribute ( "numberOfUsers", 13 );
-                        request.setAttribute ( "numberOfActivities", 16 );
-                        request.setAttribute ( "numberOfExercices ", 32 );
+                        request.setAttribute ( "numberOfUsers", numberOfUsers );
+                        request.setAttribute ( "numberOfActivities", numberOfActivities );
+                        request.setAttribute ( "numberOfExercices ", numberOfExercice );
 
                         request.getRequestDispatcher("/admin/dashboard.jsp").forward(request, response);
                     }

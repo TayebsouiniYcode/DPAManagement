@@ -2,7 +2,6 @@ package com.dpamanagement.dao.implementation;
 
 import com.dpamanagement.dao.ActivityDao;
 import com.dpamanagement.entity.Activity;
-import com.dpamanagement.entity.Exercice;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -15,10 +14,12 @@ public class ActivityDaoImpl implements ActivityDao {
     EntityManager entityManager = emf.createEntityManager();
     @Override
     public List<Activity> getAll() {
+        System.out.println ("this is place " );
         entityManager.getTransaction().begin();
         Query query = entityManager.createQuery ( "SELECT a FROM Activity a" );
         List<Activity> activityList =  query.getResultList ();
         entityManager.getTransaction().commit();
+        System.out.println (activityList.toString () );
         return activityList;
     }
 

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.dpamanagement.entity.Users" %><%--
   Created by IntelliJ IDEA.
   User: Youcode
   Date: 16/11/2022
@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<% Users user =  (Users) session.getAttribute ( "user" ); %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -60,14 +61,14 @@
                 </div>
                 <div class="info">
                     <a href="#" class="d-block">
-                        <% //user.getUsername() + " | " + user.getRole().getName()%>
+                        <%= user.getUsername() + " | " + user.getRole().getName()%>
                     </a>
                 </div>
             </div>
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item menu-open">
-                        <a href="/dashboard" class="nav-link">
+                        <a href="dashboard" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p> Dashboard </p>
                         </a>

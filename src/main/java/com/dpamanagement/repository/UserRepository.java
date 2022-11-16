@@ -8,7 +8,7 @@ public interface UserRepository {
 
     Users add( Users user);
     Users login(Users user);
-
+    int count();
     List<Users> getAll();
     void update(Users user);
     void delete (int id);

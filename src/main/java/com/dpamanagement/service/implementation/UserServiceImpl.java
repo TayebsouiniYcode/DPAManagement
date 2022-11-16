@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int count ( ) {
+        return userRepo.count();
+    }
+
+    @Override
     public void update ( Users user ) {
         userRepo.update(user);
     }

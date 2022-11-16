@@ -4,7 +4,11 @@ import com.dpamanagement.entity.Activity;
 import com.dpamanagement.entity.Exercice;
 import com.dpamanagement.entity.Participant;
 import com.dpamanagement.service.ActivityService;
+import com.dpamanagement.service.ExerciceService;
+import com.dpamanagement.service.ParticipantService;
 import com.dpamanagement.service.implementation.ActivityServiceImpl;
+import com.dpamanagement.service.implementation.ExerciceServiceImp;
+import com.dpamanagement.service.implementation.ParticipantServiceImpl;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -15,20 +19,29 @@ import java.util.List;
 
 @WebServlet(name = "ActivityServlet", urlPatterns ={ "/activities", "/addActivity"})
 public class ActivityServlet extends HttpServlet {
-
     ActivityService activityService = new ActivityServiceImpl( );
     Activity activity;
+    ExerciceService exerciceService = new ExerciceServiceImp ();
+    ParticipantService participantService = new ParticipantServiceImpl ();
 
-    List< Activity> activityList;
+    List<Activity> activityList;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getServletPath ();
 
-        String route = request.getServletPath ();
-        switch (route){
+        switch (path){
             case "/activities":
-               // List<Activity> activityList = (List<Activity>) activityService.getAll();
-                //request.setAttribute ( "activityList", activityList );
+                List<Activity> activityList = activityService.getAll();
+
+                List<Exercice> exerciceList = exerciceService.getAll();
+                request.setAttribute ( "exerciceList", exerciceList );
+
+                List<Participant> participantList = participantService.getAll();
+                request.setAttribute ( "participantList", participantList );
+
+
+                request.setAttribute ( "activityList", activityList );
                 request.getRequestDispatcher("/activity/activities.jsp").forward(request, response);
                 break;
             case  "/addActivity":
@@ -38,7 +51,7 @@ public class ActivityServlet extends HttpServlet {
                 int id = Integer.parseInt ( request.getParameter ( "id" ));
                 System.out.println ("this is servlet : " + id );
                 activityService.delete(id);
-                //activityList = activityService.getAll();
+                activityList = activityService.getAll();
                 request.setAttribute ( "activityList", activityList );
                 request.getRequestDispatcher("/activity/activities.jsp").forward(request, response);
                 break;
@@ -55,7 +68,7 @@ public class ActivityServlet extends HttpServlet {
                 String description = request.getParameter ( "description" );
                 Boolean status = Boolean.parseBoolean ( request.getParameter ( "status" ));
                 String title = request.getParameter("title");
-
+                Long idExercice = Long.parseLong (  request.getParameter ( "exercice" ));
 
                 activity = new Activity (  );
                         activity.setDateDebut(dateDebut);
@@ -63,9 +76,13 @@ public class ActivityServlet extends HttpServlet {
                         activity.setDescription(description);
                         activity.setStatus(status);
                         activity.setTitle(title);
-                        activity.setExercise(new Exercice((long) 1));
+                        activity.setExercise(new Exercice ( idExercice));
                       //  activity.setParticipantList((List<Participant>) new Participant());
-                //activityService.add(activity);
+                activityService.add(activity);
+
+                List<Activity> activityList = activityService.getAll();
+                request.setAttribute ( "activityList", activityList );
+                request.getRequestDispatcher("/activity/activities.jsp").forward(request, response);
                 break;
             case "/editActivity":
                 LocalDate date_Debut = LocalDate.parse (request.getParameter ( "dateDebut" ));
@@ -84,7 +101,7 @@ public class ActivityServlet extends HttpServlet {
                 //activityService.update(activity);
 
 
-                //activityList = activityService.getAll();
+                activityList = activityService.getAll();
                 request.setAttribute ( "activityList", activityList );
                 request.getRequestDispatcher("/activity/activities.jsp").forward(request, response);
 
