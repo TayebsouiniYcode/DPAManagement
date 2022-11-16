@@ -90,6 +90,31 @@ public class Activity implements Serializable {
     @OneToMany
     private List<Participant> participantList = new ArrayList <> ();
 
+    @ManyToOne
+    private Users responsable;
+
+    public Users getResponsable ( ) {
+        return responsable;
+    }
+
+    public void setResponsable ( Users responsable ) {
+        this.responsable = responsable;
+    }
+
+    public Activity ( Long id , String title , String description , LocalDate dateDebut , LocalDate dateFin , Boolean status , List < Participant > participantList , Users responsable , Exercice exercise ) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.status = status;
+        this.participantList = participantList;
+        this.responsable = responsable;
+        this.exercise = exercise;
+    }
+
+    public Activity() {}
+
     @OneToOne
     //@JoinColumn(name = "exercice_id", referencedColumnName = "id")
     private Exercice exercise;
@@ -100,5 +125,20 @@ public class Activity implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public String toString ( ) {
+        return "Activity{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", dateDebut=" + dateDebut +
+                ", dateFin=" + dateFin +
+                ", status=" + status +
+                ", participantList=" + participantList +
+                ", responsable=" + responsable +
+                ", exercise=" + exercise +
+                '}';
     }
 }

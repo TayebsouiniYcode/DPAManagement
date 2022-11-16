@@ -30,7 +30,7 @@ public class ExerciceDAOImp implements ExerciceDAO {
 
     @Override
     public void delete ( int id ) {
-        Exercice exercice = entityManager.find(Exercice.class, id);
+        Exercice exercice = entityManager.find(Exercice.class, Long.parseLong ( String.valueOf ( id)));
 
         entityManager.getTransaction().begin();
         entityManager.remove(exercice);

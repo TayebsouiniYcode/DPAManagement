@@ -2,6 +2,7 @@ package com.dpamanagement.entity;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -35,6 +36,10 @@ public class Users implements Serializable {
     @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "idRole")
     private Role role;
+
+    public Users ( Long idResponsable ) {
+        this.id = idResponsable;
+    }
 
     public void setId(Long idUser) {
         this.id = idUser;
@@ -120,9 +125,31 @@ public class Users implements Serializable {
         this.password = password;
     }
 
+    @OneToMany(mappedBy = "responsable")
+    private List<Activity> activities;
 
+    public List < Activity > getActivities ( ) {
+        return activities;
+    }
 
-    public Users(Long id, String firstName, String lastName, String phone, String username, String email, String password, boolean state, Role role) {
+    public void setActivities ( List < Activity > activities ) {
+        this.activities = activities;
+    }
+
+    public Users ( Long id , String firstName , String lastName , String phone , String username , String email , String password , boolean state , Role role , List < Activity > activities ) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.state = state;
+        this.role = role;
+        this.activities = activities;
+    }
+
+    public Users( Long id, String firstName, String lastName, String phone, String username, String email, String password, boolean state, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

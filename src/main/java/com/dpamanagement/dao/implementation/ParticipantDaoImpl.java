@@ -56,7 +56,7 @@ public class ParticipantDaoImpl implements ParticipantDao {
 
     @Override
     public void delete(int id) {
-        Participant participant = entityManager.find(Participant.class, id);
+        Participant participant = entityManager.find(Participant.class, Long.parseLong ( String.valueOf ( id)));
 
         entityManager.getTransaction().begin();
         entityManager.remove(participant);
