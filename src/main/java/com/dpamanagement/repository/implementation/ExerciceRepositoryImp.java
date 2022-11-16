@@ -25,7 +25,7 @@ public class ExerciceRepositoryImp implements ExerciceRipository {
 
     @Override
     public int count ( ) {
-        Query query = entityManager.createQuery ( "SELECT COUNT(u) FROM Users  u" );
+        Query query = entityManager.createQuery ( "SELECT COUNT(e) FROM Exercice e" );
         int count = Integer.parseInt ( String.valueOf ( query.getSingleResult () ) );
         return count;
     }

@@ -1,14 +1,14 @@
 package com.dpamanagement.servlet;
 
-import com.dpamanagement.entity.Activity;
-import com.dpamanagement.entity.Exercice;
-import com.dpamanagement.entity.Participant;
+import com.dpamanagement.entity.*;
 import com.dpamanagement.service.ActivityService;
 import com.dpamanagement.service.ExerciceService;
 import com.dpamanagement.service.ParticipantService;
+import com.dpamanagement.service.UserService;
 import com.dpamanagement.service.implementation.ActivityServiceImpl;
 import com.dpamanagement.service.implementation.ExerciceServiceImp;
 import com.dpamanagement.service.implementation.ParticipantServiceImpl;
+import com.dpamanagement.service.implementation.UserServiceImpl;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -17,12 +17,13 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-@WebServlet(name = "ActivityServlet", urlPatterns ={ "/activities", "/addActivity"})
+@WebServlet(name = "ActivityServlet", urlPatterns ={ "/activities", "/addActivity", "/editActivity"})
 public class ActivityServlet extends HttpServlet {
     ActivityService activityService = new ActivityServiceImpl( );
     Activity activity;
     ExerciceService exerciceService = new ExerciceServiceImp ();
     ParticipantService participantService = new ParticipantServiceImpl ();
+    UserService userService = new UserServiceImpl ();
 
     List<Activity> activityList;
 
@@ -33,6 +34,9 @@ public class ActivityServlet extends HttpServlet {
         switch (path){
             case "/activities":
                 List<Activity> activityList = activityService.getAll();
+
+                List< Users > userList = userService.getAll();
+                request.setAttribute ( "userList", userList );
 
                 List<Exercice> exerciceList = exerciceService.getAll();
                 request.setAttribute ( "exerciceList", exerciceList );
@@ -69,6 +73,7 @@ public class ActivityServlet extends HttpServlet {
                 Boolean status = Boolean.parseBoolean ( request.getParameter ( "status" ));
                 String title = request.getParameter("title");
                 Long idExercice = Long.parseLong (  request.getParameter ( "exercice" ));
+                Long idResponsable = Long.parseLong (  request.getParameter ( "responsable" ));
 
                 activity = new Activity (  );
                         activity.setDateDebut(dateDebut);
@@ -77,6 +82,7 @@ public class ActivityServlet extends HttpServlet {
                         activity.setStatus(status);
                         activity.setTitle(title);
                         activity.setExercise(new Exercice ( idExercice));
+                        activity.setResponsable ( new Users ( idResponsable) );
                       //  activity.setParticipantList((List<Participant>) new Participant());
                 activityService.add(activity);
 
@@ -88,17 +94,17 @@ public class ActivityServlet extends HttpServlet {
                 LocalDate date_Debut = LocalDate.parse (request.getParameter ( "dateDebut" ));
                 LocalDate date_Fin = LocalDate.parse ( request.getParameter ( "dateFin" ));
                 String descriptions = request.getParameter ( "description" );
-                Boolean statu = Boolean.parseBoolean ( request.getParameter ( "status" ));
+                Boolean _status = Boolean.parseBoolean ( request.getParameter ( "status" ));
                 String titles = request.getParameter("title");
                 activity = new Activity (  );
                 activity.setDateDebut(date_Debut);
                 activity.setDateFin(date_Fin);
                 activity.setDescription(descriptions);
-                activity.setStatus(statu);
+                activity.setStatus(_status);
                 activity.setTitle(titles);
                 activity.setExercise(new Exercice((long) 1));
                 //  activity.setParticipantList((List<Participant>) new Participant());
-                //activityService.update(activity);
+                activityService.update(activity);
 
 
                 activityList = activityService.getAll();

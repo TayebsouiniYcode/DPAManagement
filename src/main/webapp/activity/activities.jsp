@@ -2,11 +2,12 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.dpamanagement.entity.Exercice" %>
 <%@ page import="com.dpamanagement.entity.Participant" %>
+<%@ page import="org.w3c.dom.css.CSSStyleDeclaration" %>
 <%@ include file="../components/dashHeader.jsp"%>
 <% List < Activity > activityList = (List<Activity>) request.getAttribute ( "activityList" ); %>
 <% List < Exercice > exerciceList = (List<Exercice>) request.getAttribute ( "exerciceList" ); %>
 <% List < Participant > participantList = (List<Participant>) request.getAttribute ( "participantList" ); %>
-
+<% List < Users > userList = (List<Users>) request.getAttribute ( "userList" ); %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -72,8 +73,8 @@
                                     out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getId () + "</td>");
                                     out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getDateDebut () + "</td>");
                                     out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getDateFin () + "</td>");
-                                    out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getDescription () + "</td>");
                                     out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getStatus () + "</td>");
+                                    out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getDescription () + "</td>");
                                     out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getTitle () + "</td>");
                                     out.println( "<td><a href='deleteActivity?id=" + activity.getId () + "'>Delete</a></td>");
                                     out.println("</tr>");
@@ -169,6 +170,14 @@
                     <div class="form-group">
                         <label for="title" class="form-label">Title</label>
                         <textarea name="title" id="_title" cols="30" rows="4" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="respansable">Responsable</label>
+                        <select class="form-control" id="respansable" name="responsable">
+                            <% for ( Users users : userList ) { %>
+                                <option value="<%=users.getId()%>"><%= users.getFirstName () + " " + users.getLastName () %></option>
+                            <% } %>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="exercice">Exercice</label>

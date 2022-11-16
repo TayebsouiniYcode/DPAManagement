@@ -32,7 +32,7 @@ public class ActivityDaoImpl implements ActivityDao {
 
     @Override
     public void delete ( int id ) {
-        Activity activity = entityManager.find(Activity.class, id);
+        Activity activity = entityManager.find(Activity.class, Long.parseLong ( String.valueOf ( id)));
 
         entityManager.getTransaction().begin();
         entityManager.remove(activity);
