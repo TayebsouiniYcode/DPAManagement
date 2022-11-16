@@ -28,6 +28,11 @@ public class ExerciceServiceImp implements ExerciceService {
     }
 
     @Override
+    public int count ( ) {
+        return exerciceRepository.count();
+    }
+
+    @Override
     public void update ( Exercice exercise ) {
         exerciceRepository.update(exercise);
     }

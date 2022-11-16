@@ -26,6 +26,10 @@ public class Participant extends Users{
         setId ( parseLong );
     }
 
+    public Participant ( Long id , String firstname , String lastname , String phone , Object o , String email , Object o1 , Boolean status , Role role , String structure ) {
+
+    }
+
     public String getDomain() {
         return domain;
     }
