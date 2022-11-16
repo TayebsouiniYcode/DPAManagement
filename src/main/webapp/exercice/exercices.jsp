@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.dpamanagement.entity.Exercice" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Youcode
   Date: 16/11/2022
@@ -7,6 +8,7 @@
 --%>
 <%@ include file="../components/dashHeader.jsp"%>
 
+<% List < Exercice > exerciceList = (List<Exercice>) request.getAttribute ( "exerciceList" ); %>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -61,17 +63,17 @@
                                 <tbody>
 
                                 <%
-                                    //for (Exercise exercice : exerciceList) {
-                                    //    out.println ("<tr>");
-                                    //    out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getId () + "</td>");
-                                    //    out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getYear () + "</td>");
-                                    //    out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getDateStart () + "</td>");
-                                    //    out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getEndDate () + "</td>");
-                                    //    out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.isState () + "</td>");
-                                    //    out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getDescription () + "</td>");
-                                    //    out.println( "<td><a href='deleteExercice?id=" + exercice.getId () + "'>Delete</a></td>");
-                                    //    out.println("</tr>");
-                                    //}
+                                    for ( Exercice exercice : exerciceList) {
+                                        out.println ("<tr>");
+                                        out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getId () + "</td>");
+                                        out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getYear () + "</td>");
+                                        out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getDateStart () + "</td>");
+                                        out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getEndDate () + "</td>");
+                                        out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.isState () + "</td>");
+                                        out.println( "<td data-bs-toggle='modal' data-bs-target='#editExercice' onclick='chargingModal(event)'>" + exercice.getDescription () + "</td>");
+                                        out.println( "<td><a href='deleteExercice?id=" + exercice.getId () + "'>Delete</a></td>");
+                                        out.println("</tr>");
+                                    }
                                 %>
                                 </tbody>
                             </table>
