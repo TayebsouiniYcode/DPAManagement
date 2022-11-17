@@ -54,11 +54,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void delete(int id) {
+    public boolean delete(int id) {
         Users user = entityManager.find(Users.class, Long.parseLong ( String.valueOf ( id)));
-
-        entityManager.getTransaction().begin();
-        entityManager.remove(user);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(user);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            entityManager.getTransaction ().rollback ();
+            return false;
+        }
     }
 }

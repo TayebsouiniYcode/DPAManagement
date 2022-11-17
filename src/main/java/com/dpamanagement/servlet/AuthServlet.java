@@ -34,7 +34,6 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println ("1" );
         String path = request.getServletPath ();
         String username;
         String password;
@@ -42,7 +41,6 @@ public class AuthServlet extends HttpServlet {
         Users user;
         switch (path) {
             case "/register":
-                System.out.println ("here" );
                 user = new Users();
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
@@ -71,6 +69,7 @@ public class AuthServlet extends HttpServlet {
 
                 if(user != null){
                     if(password.equals ( user.getPassword () )){
+                        if (user.isState ()){
                         HttpSession session = request.getSession( );
                         session.setAttribute("user", user);
                         session.setAttribute ( "role", user.getRole ().getName () );
@@ -84,6 +83,11 @@ public class AuthServlet extends HttpServlet {
                         request.setAttribute ( "numberOfExercices ", numberOfExercice );
 
                         request.getRequestDispatcher("/admin/dashboard.jsp").forward(request, response);
+                        }
+                        if (!user.isState ()) {
+                            request.setAttribute ( "errorMessage", "Your account is inactivated" );
+                            request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
+                        }
                     }
                     else {
                         request.setAttribute ( "errorMessage", "information invalide" );
