@@ -29,14 +29,17 @@ public class UserDaoImpl implements UserDao {
         //CriteriaQuery<Users> all = cq.select(rootEntry);
         //TypedQuery <Users> allQuery = entityManager.createQuery(all);
         //List<Users> usersList = allQuery.getResultList();
-        System.out.println ("this is dao user" );
-        entityManager.getTransaction().begin();
-        Query query = entityManager.createQuery("SELECT u FROM Users u");
-        List<Users> usersList = query.getResultList();
-        entityManager.getTransaction().commit();
-
-        System.out.println(usersList.toString());
-        return usersList;
+        try {
+            entityManager.getTransaction().begin();
+            Query query = entityManager.createQuery("SELECT u FROM Users u");
+            List<Users> usersList = query.getResultList();
+            entityManager.getTransaction().commit();
+            return usersList;
+        } catch (Exception e) {
+            System.out.println ("error : " + e.toString () );
+            entityManager.getTransaction ().rollback ();
+            return null;
+        }
     }
 
     @Override
@@ -54,11 +57,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void delete(int id) {
+    public boolean delete(int id) {
         Users user = entityManager.find(Users.class, Long.parseLong ( String.valueOf ( id)));
-
-        entityManager.getTransaction().begin();
-        entityManager.remove(user);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(user);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            entityManager.getTransaction ().rollback ();
+            return false;
+        }
     }
 }

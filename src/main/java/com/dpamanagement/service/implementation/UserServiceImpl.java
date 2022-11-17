@@ -1,5 +1,6 @@
 package com.dpamanagement.service.implementation;
 
+import com.dpamanagement.entity.Role;
 import com.dpamanagement.entity.Users;
 import com.dpamanagement.repository.UserRepository;
 import com.dpamanagement.repository.implementation.UserRepositoryImpl;
@@ -26,6 +27,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List < Role > getAllRole ( ) {
+        return userRepo.getAllRole();
+    }
+
+    @Override
+    public List < Users > getAllParticipant ( ) {
+        return userRepo.getAllParticipant ();
+    }
+
+    @Override
     public int count ( ) {
         return userRepo.count();
     }
@@ -36,8 +47,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete ( int id ) {
-        userRepo.delete(id);
+    public boolean delete ( int id ) {
+        return userRepo.delete(id);
     }
 }
 

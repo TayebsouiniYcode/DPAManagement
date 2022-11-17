@@ -17,24 +17,32 @@ import java.util.List;
 public class UserServlet extends HttpServlet {
     UserService userService = new UserServiceImpl ();
     List< Users> usersList;
+    List<Role> roleList;
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath ();
 
         switch (path){
             case "/utilisateurs":
-                System.out.println ("servlet with path /utilisateurs" );
                 usersList = userService.getAll();
-
+                roleList = userService.getAllRole();
+                request.setAttribute ( "roleList", roleList );
                 request.setAttribute ( "usersList", usersList );
+
                 request.getRequestDispatcher ( "/admin/utilisateurs.jsp" ).forward ( request, response );
                 break;
             case "/deleteUser":
                 int id = Integer.parseInt ( request.getParameter ( "id" ));
-                userService.delete(id);
-                usersList = userService.getAll();
+                if (userService.delete(id)){
+                    request.setAttribute ( "deleteMessage", "true" );
+                } else {
+                    request.setAttribute ( "deleteMessage", "false" );
+                }
 
+                usersList = userService.getAll();
                 request.setAttribute ( "usersList", usersList );
+                roleList = userService.getAllRole();
+                request.setAttribute ( "roleList", roleList );
                 request.getRequestDispatcher ( "/admin/utilisateurs.jsp" ).forward ( request, response );
                 break;
 
@@ -47,6 +55,7 @@ public class UserServlet extends HttpServlet {
 
         switch (path) {
             case "/editUser":
+                System.out.println ("43");
                 Long id = Long.parseLong ( request.getParameter ( "id" ) );
                 String firstname = request.getParameter ( "firstname" );
                 String lastname = request.getParameter ( "lastname" );
@@ -54,23 +63,33 @@ public class UserServlet extends HttpServlet {
                 String phone = request.getParameter ( "phone" );
                 Boolean status = Boolean.parseBoolean ( request.getParameter ( "status"  ) );
                 String roleName = request.getParameter ( "role" );
-                Role role;
+                System.out.println ("this is note error here" );
+                Role role = null;
+                System.out.println ("this is note error here 2" );
+                // to refactoring
                 if (roleName.equals ( "administrateur" )) {
-                    role = new Role(Long.parseLong ( "2"), "administrateur");
-                } else {
+                    role = new Role ( Long.parseLong ( "2" ) , "administrateur" );
+                }
+                else if (roleName.equals ( "utilisateur" )) {
                     role = new Role(Long.parseLong ( "1"), "utilisateur");
+                }
+                else if (roleName.equals ( "formateur" )) {
+                    role = new Role(Long.parseLong ( "3"), "formateur");
+                }
+                else if (roleName.equals ( "intervenant" )) {
+                    role = new Role(Long.parseLong ( "4"), "intervenant");
+                }
+                else if (roleName.equals ( "participant" )) {
+                    role = new Role(Long.parseLong ( "5"), "participant");
                 }
 
                 Users user = new Users ( id, firstname, lastname, phone, null, email, null, status, role );
-
                 userService.update(user);
-                //System.out.println ( "id " + id + " " + firstname + " " + lastname + "" +
-                //        " " + email + " " + phone + " " + status + " " + roleName );
-
-                //System.out.println (  );
-                List< Users> usersList = userService.getAll();
-
+                usersList = userService.getAll();
+                roleList = userService.getAllRole();
+                request.setAttribute ( "roleList", roleList );
                 request.setAttribute ( "usersList", usersList );
+
                 request.getRequestDispatcher ( "/admin/utilisateurs.jsp" ).forward ( request, response );
                 break;
         }

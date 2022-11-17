@@ -6,7 +6,7 @@
 <%@ include file="../components/dashHeader.jsp"%>
 <% List < Activity > activityList = (List<Activity>) request.getAttribute ( "activityList" ); %>
 <% List < Exercice > exerciceList = (List<Exercice>) request.getAttribute ( "exerciceList" ); %>
-<% List < Participant > participantList = (List<Participant>) request.getAttribute ( "participantList" ); %>
+<% List < Users > participantList = (List<Users>) request.getAttribute ( "participantList" ); %>
 <% List < Users > userList = (List<Users>) request.getAttribute ( "userList" ); %>
 
 <%--
@@ -76,6 +76,18 @@
                                     out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getStatus () + "</td>");
                                     out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getDescription () + "</td>");
                                     out.println( "<td data-bs-toggle='modal' data-bs-target='#editActivity' onclick='chargingModal(event)'>" + activity.getTitle () + "</td>");
+
+                                    if(activity.getParticipantList ().size () != 0) {
+                                        for ( Users users : activity.getParticipantList ( ) ) {
+                                            out.println( "<td class='d-none'>" + users.getId () + "</td>");
+                                            out.println( "<td class='d-none'>" + users.getFirstName () + "</td>");
+                                            out.println( "<td class='d-none'>" + users.getLastName () + "</td>");
+                                        }
+                                    }
+
+
+
+                                    out.println( "<td data-bs-toggle='modal' data-bs-target='#showParticipants' onclick='chargingParticipant(event)'>Participans</td>");
                                     out.println( "<td><a href='deleteActivity?id=" + activity.getId () + "'>Delete</a></td>");
                                     out.println("</tr>");
                                 }
@@ -117,7 +129,6 @@
                         <label for="Description" class="form-label">Description</label>
                         <input type="date" name="description" id="Description" class="form-control">
                     </div>
-
                     <div class="form-group">
                         <label for="statusTrue" class="form-check-label">Active</label>
                         <input type="radio" name="status" id="statusTrue" value="true" class="form-check-input">
@@ -125,9 +136,9 @@
                         <input type="radio" name="status" id="statusFalse" value="false" class="form-check-input">
                     </div>
                     <div class="form-group">
-                    <label for="title" class="form-label">Title</label>
-                    <textarea name="title" id="title" cols="30" rows="4" class="form-control"></textarea>
-                </div>
+                        <label for="title" class="form-label">Title</label>
+                        <textarea name="title" id="title" cols="30" rows="4" class="form-control"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -148,7 +159,10 @@
             </div>
             <form action="addActivity" method="post" name="addActivity">
                 <div class="modal-body">
-
+                    <div class="form-group">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" name="title" id="_title" class="form-control">
+                    </div>
                     <div class="form-group">
                         <label for="dateDebut" class="form-label">Start date</label>
                         <input type="date" name="dateDebut" id="_dateDebut" class="form-control">
@@ -164,28 +178,32 @@
                         <input type="radio" name="status" id="_statusFalse" value="false" class="">
                     </div>
                     <div class="form-group">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea name="description" id="_description" cols="30" rows="4" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="title" class="form-label">Title</label>
-                        <textarea name="title" id="_title" cols="30" rows="4" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="respansable">Responsable</label>
-                        <select class="form-control" id="respansable" name="responsable">
-                            <% for ( Users users : userList ) { %>
-                                <option value="<%=users.getId()%>"><%= users.getFirstName () + " " + users.getLastName () %></option>
-                            <% } %>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label class="form-label" for="exercice">Exercice</label>
                         <select class="form-control" id="exercice" name="exercice">
                             <% for ( Exercice exercice : exerciceList ) { %>
                                 <option value="<%=exercice.getId()%>"><%=exercice.getDescription()%></option>
                             <% } %>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="_responsable">Responsable</label>
+                        <select class="form-control" id="_responsable" name="responsable">
+                            <% for ( Users _user : userList ) { %>
+                            <option value="<%=_user.getId()%>"><%=_user.getFirstName() + " " + _user.getLastName()%></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="participants">Participant</label>
+                        <select multiple class="form-control" name="participants" id="participants">
+                            <% for ( Users users : participantList ) { %>
+                                <option value="<%=users.getId()%>"><%=users.getFirstName () + " " + users.getLastName ()%></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" id="_description" cols="30" rows="4" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -196,6 +214,32 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="showParticipants" tabindex="-1" aria-labelledby="showParticipantsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showParticipantsLabel">Participant</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                    <div>
+                        <ul id="participantListModal">
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 <script>
     function chargingModal(event) {
         let parent = event.target.parentElement;
@@ -212,6 +256,23 @@
         form.description.value = parent.children[4].innerText;
         form.title.value = parent.children[5].innerText;
     }
+</script>
+<script>
+    function chargingParticipant(event){
+
+        let participantListModal = document.querySelector("#participantListModal");
+        participantListModal.innerHTML = "";
+        let parent = event.target.parentElement;
+        if (parent.children.length > 3){
+            for (let i = 0 ;parent.children.length; i+=3) {
+                participantListModal.innerHTML += "<li> id : " +  parent.children[i + 6 ].innerText + " name : " + parent.children[ i + 7].innerText + " " + parent.children[i + 8].innerText
+            }
+
+        } else
+        participantListModal.innerHTML += "<li> id : " +  parent.children[6].innerText + " name : " + parent.children[7].innerText + " " + parent.children[8].innerText
+
+    }
+
 </script>
 <%@ include file="../components/dashFooter.jsp"%>
 

@@ -34,7 +34,7 @@
                 <div class="navbar-search-block">
                     <form class="form-inline">
                         <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control form-control-navbar searchInput" type="search" placeholder="Search" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-navbar" type="submit">
                                     <i class="fas fa-search"></i>
@@ -50,8 +50,8 @@
         </ul>
     </nav>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="/dashboard" class="brand-link">
-            <span class="brand-text font-weight-light">Activities Manager Youcode</span>
+        <a href="dashboard" class="text-center text-decoration-none brand-link">
+            <span class="text-center brand-text font-weight-light">PDAManager</span>
         </a>
 
         <div class="sidebar">
