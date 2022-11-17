@@ -8,8 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.dpamanagement.entity.Users" %>
+<%@ page import="com.dpamanagement.entity.Role" %>
 <%@ include file="../components/dashHeader.jsp"%>
 <% List < Users > usersList = (List<Users>) request.getAttribute ( "usersList" ); %>
+
+<% List < Role > roleList = (List<Role>) request.getAttribute ( "roleList" ); %>
 
 <%
     String deleteMessage = (String) request.getAttribute ( "deleteMessage" );
@@ -22,14 +25,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <% if(deleteMessage != null && !deleteMessage.isEmpty() && deleted) { %>
-                <div class="col-6"></div>
-                <div class="col-6 alert alert-success" role="alert">
+                <div class="col-12 alert alert-success" role="alert">
                     User has deleted
                 </div>
                 <% } %>
                 <% if(deleteMessage != null && !deleteMessage.isEmpty() && !deleted) { %>
-                <div class="col-6"></div>
-                <div class="col-6 alert alert-danger" role="alert">
+                <div class="col-12 alert alert-danger" role="alert">
                     User dont deleted
                 </div>
                 <% } %>
@@ -147,8 +148,9 @@
                     <div class="form-group">
                         <label for="role" class="form-label">Role</label>
                         <select class="form-control" name="role" id="role">
-                            <option value="utilisateur">Utilisateur</option>
-                            <option value="administrateur">Administrateur</option>
+                            <% for ( Role role : roleList ) { %>
+                                <option value="<%=role.getName()%>"><%=role.getName ()%></option>
+                            <% } %>
                         </select>
                     </div>
                 </div>
