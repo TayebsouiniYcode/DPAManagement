@@ -52,8 +52,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void delete ( int id ) {
-        userDao.delete(id);
+    public boolean delete ( int id ) {
+        return userDao.delete(id);
     }
 
 

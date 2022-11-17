@@ -12,6 +12,6 @@ public interface UserService {
     List<Users> getAll();
     int count();
     void update(Users user);
-    void delete(int id);
+    boolean delete(int id);
 
 }

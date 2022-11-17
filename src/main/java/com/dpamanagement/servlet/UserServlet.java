@@ -31,7 +31,11 @@ public class UserServlet extends HttpServlet {
                 break;
             case "/deleteUser":
                 int id = Integer.parseInt ( request.getParameter ( "id" ));
-                userService.delete(id);
+                if (userService.delete(id)){
+                    request.setAttribute ( "deleteMessage", "true" );
+                } else {
+                    request.setAttribute ( "deleteMessage", "false" );
+                }
                 usersList = userService.getAll();
 
                 request.setAttribute ( "usersList", usersList );

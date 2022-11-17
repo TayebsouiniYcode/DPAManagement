@@ -11,9 +11,29 @@
 <%@ include file="../components/dashHeader.jsp"%>
 <% List < Users > usersList = (List<Users>) request.getAttribute ( "usersList" ); %>
 
+<%
+    String deleteMessage = (String) request.getAttribute ( "deleteMessage" );
+    Boolean deleted = Boolean.parseBoolean ( deleteMessage );
+%>
+
+
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
+            <div class="row mb-2">
+                <% if(deleteMessage != null && !deleteMessage.isEmpty() && deleted) { %>
+                <div class="col-6"></div>
+                <div class="col-6 alert alert-success" role="alert">
+                    User has deleted
+                </div>
+                <% } %>
+                <% if(deleteMessage != null && !deleteMessage.isEmpty() && !deleted) { %>
+                <div class="col-6"></div>
+                <div class="col-6 alert alert-danger" role="alert">
+                    User dont deleted
+                </div>
+                <% } %>
+            </div>
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <p>Exercise List</p>
@@ -57,6 +77,7 @@
                                     <th>Phone</th>
                                     <th>State</th>
                                     <th>Role</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -139,6 +160,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    window.onload = function() {
+        setTimeout(function(){
+            let elt = document.querySelector(".alert");
+            elt.style.display = "none"
+        }, 3000);
+    }
+</script>
 
 <script>
     function chargingModal(event) {
