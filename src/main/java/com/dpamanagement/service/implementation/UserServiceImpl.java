@@ -1,5 +1,6 @@
 package com.dpamanagement.service.implementation;
 
+import com.dpamanagement.entity.Role;
 import com.dpamanagement.entity.Users;
 import com.dpamanagement.repository.UserRepository;
 import com.dpamanagement.repository.implementation.UserRepositoryImpl;
@@ -23,6 +24,16 @@ public class UserServiceImpl implements UserService {
     public List < Users > getAll ( ) {
         System.out.println ("this is service" );
         return userRepo.getAll();
+    }
+
+    @Override
+    public List < Role > getAllRole ( ) {
+        return userRepo.getAllRole();
+    }
+
+    @Override
+    public List < Users > getAllParticipant ( ) {
+        return userRepo.getAllParticipant ();
     }
 
     @Override

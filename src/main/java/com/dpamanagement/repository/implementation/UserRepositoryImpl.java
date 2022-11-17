@@ -1,6 +1,7 @@
 package com.dpamanagement.repository.implementation;
 import com.dpamanagement.dao.UserDao;
 import com.dpamanagement.dao.implementation.UserDaoImpl;
+import com.dpamanagement.entity.Role;
 import com.dpamanagement.entity.Users;
 import com.dpamanagement.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -45,6 +46,22 @@ public class UserRepositoryImpl implements UserRepository {
     public List < Users > getAll ( ) {
         return userDao.getAll();
     }
+
+    @Override
+    public List < Role > getAllRole ( ) {
+        Query query = entityManager.createQuery ( "SELECT r FROM Role r" );
+        List<Role> roleList =  query.getResultList ();
+        return roleList;
+    }
+
+    @Override
+    public List < Users > getAllParticipant ( ) {
+        Query query = entityManager.createQuery ( "SELECT u FROM Users u WHERE u.role.name=:role" );
+        query.setParameter ( "role", "participant" );
+        List<Users> userList =  query.getResultList ();
+        return userList;
+    }
+
 
     @Override
     public void update ( Users user ) {

@@ -55,11 +55,11 @@ public class Activity implements Serializable {
         this.status = status;
     }
 
-    public List<Participant> getParticipantList() {
+    public List<Users> getParticipantList() {
         return participantList;
     }
 
-    public void setParticipantList(List<Participant> participantList) {
+    public void setParticipantList(List<Users> participantList) {
         this.participantList = participantList;
     }
 
@@ -87,8 +87,8 @@ public class Activity implements Serializable {
     private Boolean status;
 
     // Relationship
-    @OneToMany
-    private List<Participant> participantList = new ArrayList <> ();
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Users> participantList = new ArrayList <> ();
 
     @ManyToOne
     private Users responsable;
@@ -101,7 +101,7 @@ public class Activity implements Serializable {
         this.responsable = responsable;
     }
 
-    public Activity ( Long id , String title , String description , LocalDate dateDebut , LocalDate dateFin , Boolean status , List < Participant > participantList , Users responsable , Exercice exercise ) {
+    public Activity ( Long id , String title , String description , LocalDate dateDebut , LocalDate dateFin , Boolean status , List < Users > participantList , Users responsable , Exercice exercise ) {
         this.id = id;
         this.title = title;
         this.description = description;
