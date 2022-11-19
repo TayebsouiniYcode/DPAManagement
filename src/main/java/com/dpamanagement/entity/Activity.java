@@ -15,6 +15,21 @@ public class Activity implements Serializable {
     @Column(name="id")
     private Long id;
 
+    @Column(name= "title", nullable = false)
+    private String title;
+
+    @Column(name= "description" , nullable = true)
+    private String description;
+
+    @Column(name= "dateDebut", nullable = false)
+    private LocalDate dateDebut;
+
+    @Column(name = "dateFin", nullable = true)
+    private LocalDate dateFin;
+
+    @Column(name = "status")
+    private Boolean status;
+
     public String getTitle() {
         return title;
     }
@@ -71,20 +86,7 @@ public class Activity implements Serializable {
         this.exercise = exercise;
     }
 
-    @Column(name= "title", nullable = false)
-    private String title;
 
-    @Column(name= "description" , nullable = true)
-    private String description;
-
-    @Column(name= "dateDebut", nullable = false)
-    private LocalDate dateDebut;
-
-    @Column(name = "dateFin", nullable = true)
-    private LocalDate dateFin;
-
-    @Column(name = "status")
-    private Boolean status;
 
     // Relationship
     @OneToMany(fetch = FetchType.EAGER)

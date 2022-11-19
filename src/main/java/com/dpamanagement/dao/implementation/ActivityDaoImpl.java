@@ -24,19 +24,32 @@ public class ActivityDaoImpl implements ActivityDao {
     }
 
     @Override
-    public void add(Activity activity) {
-        entityManager.getTransaction().begin();
-        entityManager.persist ( activity );
-        entityManager.getTransaction().commit();
+    public Activity add(Activity activity) {
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.persist ( activity );
+            entityManager.getTransaction().commit();
+            return activity;
+        } catch (Exception e) {
+            System.out.println (e.toString () );
+            return null;
+        }
     }
 
     @Override
-    public void delete ( int id ) {
+    public boolean delete ( int id ) {
         Activity activity = entityManager.find(Activity.class, Long.parseLong ( String.valueOf ( id)));
 
-        entityManager.getTransaction().begin();
-        entityManager.remove(activity);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(activity);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            System.out.println (e.toString () );
+            entityManager.getTransaction ().rollback ();
+            return false;
+        }
     }
 
     @Override
@@ -52,5 +65,4 @@ public class ActivityDaoImpl implements ActivityDao {
 
         entityManager.getTransaction().commit();
     }
-
 }

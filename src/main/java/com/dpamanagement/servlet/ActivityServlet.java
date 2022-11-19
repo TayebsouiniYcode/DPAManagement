@@ -34,11 +34,11 @@ public class ActivityServlet extends HttpServlet {
 
         switch (path){
             case "/activities":
-                List<Users> participantList = userService.getAllParticipant ();
+                List<Users> participantList = userService.gitAllUsersByRoleName ("participant");
                 request.setAttribute ( "participantList", participantList );
 
 
-                List< Users > userList = userService.getAll();
+                List< Users > userList = userService.getAllUsers();
                 request.setAttribute ( "userList", userList );
 
                 List<Exercice> exerciceList = exerciceService.getAll();
@@ -59,11 +59,11 @@ public class ActivityServlet extends HttpServlet {
                 int id = Integer.parseInt ( request.getParameter ( "id" ));
                 System.out.println ("this is servlet : " + id );
                 activityService.delete(id);
-                List<Users> _participantList = userService.getAllParticipant ();
+                List<Users> _participantList = userService.gitAllUsersByRoleName ("participant");
                 request.setAttribute ( "participantList", _participantList );
 
 
-                List< Users > _userList = userService.getAll();
+                List< Users > _userList = userService.getAllUsers();
                 request.setAttribute ( "userList", _userList );
 
                 List<Exercice> _exerciceList = exerciceService.getAll();
@@ -111,11 +111,11 @@ public class ActivityServlet extends HttpServlet {
                         activity.setParticipantList(participants);
                 activityService.add(activity);
 
-                List<Users> participantList = userService.getAllParticipant ();
+                List<Users> participantList = userService.gitAllUsersByRoleName ("participant");
                 request.setAttribute ( "participantList", participantList );
 
 
-                List< Users > userList = userService.getAll();
+                List< Users > userList = userService.getAllUsers();
                 request.setAttribute ( "userList", userList );
 
                 List<Exercice> exerciceList = exerciceService.getAll();
@@ -141,11 +141,11 @@ public class ActivityServlet extends HttpServlet {
                 //  activity.setParticipantList((List<Participant>) new Participant());
                 activityService.update(activity);
 
-                List<Users> _participantList = userService.getAllParticipant ();
+                List<Users> _participantList = userService.gitAllUsersByRoleName ("participant");
                 request.setAttribute ( "participantList", _participantList );
 
 
-                List< Users > _userList = userService.getAll();
+                List< Users > _userList = userService.getAllUsers();
                 request.setAttribute ( "userList", _userList );
 
                 List<Exercice> _exerciceList = exerciceService.getAll();

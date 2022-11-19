@@ -41,23 +41,23 @@ public class AuthServlet extends HttpServlet {
         Users user;
         switch (path) {
             case "/register":
-                user = new Users();
-                String firstName = request.getParameter("firstName");
-                String lastName = request.getParameter("lastName");
+                String firstname = request.getParameter("firstName");
+                String lastname = request.getParameter("lastName");
                 String phone = request.getParameter("phone");
                 username = request.getParameter("username");
                 String email = request.getParameter("email");
                 password = request.getParameter("password");
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                user.setPhone(phone);
-                user.setUsername(username);
-                user.setEmail(email);
-                user.setPassword(password);
-                user.setRole(new Role((long) 1));
-                userService.add(user);
+                Role role = new Role (Long.parseLong ( String.valueOf ( 1 ) ));
+                user = new Users(null, firstname, lastname, phone, username, email, password, false, role);
+                //user.setFirstName(firstName);
+                //user.setLastName(lastName);
+                //user.setPhone(phone);
+                //user.setUsername(username);
+                //user.setEmail(email);
+                //user.setPassword(password);
+                //user.setRole(new Role((long) 1));
+                userService.addUser(user);
                 response.sendRedirect("login");
-
                 break;
             case "/login":
                 username = request.getParameter ( "username" );
@@ -74,7 +74,7 @@ public class AuthServlet extends HttpServlet {
                         session.setAttribute("user", user);
                         session.setAttribute ( "role", user.getRole ().getName () );
 
-                        int numberOfUsers = userService.count();
+                        int numberOfUsers = userService.numberOfUsers ();
                         int numberOfActivities = activityService.count();
                         int numberOfExercice = exerciceService.count();
 

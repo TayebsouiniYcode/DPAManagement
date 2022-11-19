@@ -36,13 +36,33 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     }
 
     @Override
-    public void delete ( int id ) {
-        System.out.println ("this is repository " + id );
-        activityDAO.delete(id);
+    public boolean delete ( int id ) {
+        try {
+            activityDAO.delete(id);
+            return true;
+        } catch (Exception e) {
+            System.out.println (e.toString () );
+            return false;
+        }
     }
 
     @Override
     public void update ( Activity activity ) {
         activityDAO.update(activity);
+    }
+
+    @Override
+    public Long getLatestActivityId() {
+        try {
+            entityManager.getTransaction ().begin();
+            Query query = entityManager.createQuery ( "Select MAX(a.id) FROM Activity a" );
+            Long latestActivityId = (Long) query.getSingleResult ();
+            entityManager.getTransaction ().commit ();
+            return latestActivityId;
+        } catch (Exception e) {
+            entityManager.getTransaction ().rollback ();
+            System.out.println (e.toString () );
+            return null;
+        }
     }
 }

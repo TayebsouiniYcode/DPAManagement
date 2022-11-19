@@ -24,7 +24,7 @@ public class UserServlet extends HttpServlet {
 
         switch (path){
             case "/utilisateurs":
-                usersList = userService.getAll();
+                usersList = userService.getAllUsers ();
                 roleList = userService.getAllRole();
                 request.setAttribute ( "roleList", roleList );
                 request.setAttribute ( "usersList", usersList );
@@ -33,13 +33,13 @@ public class UserServlet extends HttpServlet {
                 break;
             case "/deleteUser":
                 int id = Integer.parseInt ( request.getParameter ( "id" ));
-                if (userService.delete(id)){
+                if (userService.deleteUserById (id)){
                     request.setAttribute ( "deleteMessage", "true" );
                 } else {
                     request.setAttribute ( "deleteMessage", "false" );
                 }
 
-                usersList = userService.getAll();
+                usersList = userService.getAllUsers();
                 request.setAttribute ( "usersList", usersList );
                 roleList = userService.getAllRole();
                 request.setAttribute ( "roleList", roleList );
@@ -84,8 +84,8 @@ public class UserServlet extends HttpServlet {
                 }
 
                 Users user = new Users ( id, firstname, lastname, phone, null, email, null, status, role );
-                userService.update(user);
-                usersList = userService.getAll();
+                userService.updateUser(user);
+                usersList = userService.getAllUsers();
                 roleList = userService.getAllRole();
                 request.setAttribute ( "roleList", roleList );
                 request.setAttribute ( "usersList", usersList );
