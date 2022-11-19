@@ -5,9 +5,9 @@ import com.dpamanagement.entity.Users;
 import java.util.List;
 
 public interface UserDao {
-    Users add( Users u);
-    List<Users> getAll();
-
-    void update(Users user);
-    boolean delete(int id);
+    Users addUser( Users u);
+    List<Users> getAllUsers();
+    boolean updateUser(Users user);
+    boolean deleteUserById(int id);
+    Users getUserById(Long id);
 }

@@ -18,9 +18,53 @@ public class UserRepositoryImpl implements UserRepository {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
     EntityManager entityManager = emf.createEntityManager();
+
     @Override
-    public Users add(Users user) {
-        return userDao.add(user);
+    public List < Users > getAllUsers ( ) {return userDao.getAllUsers();}
+
+    @Override
+    public Users addUser(Users user) {
+        return userDao.addUser(user);
+    }
+
+    @Override
+    public void updateUser ( Users user ) {
+        userDao.updateUser(user);
+    }
+
+    @Override
+    public boolean deleteUserById ( int id ) {
+        return userDao.deleteUserById (id);
+    }
+
+    @Override
+    public int numberOfUsers ( ) {
+        Query query = entityManager.createQuery ( "SELECT COUNT(u) FROM Users  u" );
+        int count = Integer.parseInt ( String.valueOf ( query.getSingleResult () ) );
+        return count;
+    }
+
+    @Override
+    public List < Role > getAllRole ( ) {
+        Query query = entityManager.createQuery ( "SELECT r FROM Role r" );
+        List<Role> roleList =  query.getResultList ();
+        return roleList;
+    }
+
+    @Override
+    public List < Users > getAllUserByRoleName ( String roleName) {
+        Query query = entityManager.createQuery ( "SELECT u FROM Users u WHERE u.role.name=:role" );
+        query.setParameter ( "role", roleName );
+        List<Users> userList =  query.getResultList ();
+        return userList;
+    }
+
+    @Override
+    public Long getLatestIdUserInDb ( ) {
+        entityManager.getTransaction ().begin ();
+        Query query = entityManager.createQuery ( "Select MAX(u.id) FROM Users u ");
+        Long id = (Long) query.getSingleResult ();
+        return id;
     }
 
     @Override
@@ -34,44 +78,4 @@ public class UserRepositoryImpl implements UserRepository {
             return null;
         }
     }
-
-    @Override
-    public int count ( ) {
-        Query query = entityManager.createQuery ( "SELECT COUNT(u) FROM Users  u" );
-        int count = Integer.parseInt ( String.valueOf ( query.getSingleResult () ) );
-        return count;
-    }
-
-    @Override
-    public List < Users > getAll ( ) {
-        return userDao.getAll();
-    }
-
-    @Override
-    public List < Role > getAllRole ( ) {
-        Query query = entityManager.createQuery ( "SELECT r FROM Role r" );
-        List<Role> roleList =  query.getResultList ();
-        return roleList;
-    }
-
-    @Override
-    public List < Users > getAllParticipant ( ) {
-        Query query = entityManager.createQuery ( "SELECT u FROM Users u WHERE u.role.name=:role" );
-        query.setParameter ( "role", "participant" );
-        List<Users> userList =  query.getResultList ();
-        return userList;
-    }
-
-
-    @Override
-    public void update ( Users user ) {
-        userDao.update(user);
-    }
-
-    @Override
-    public boolean delete ( int id ) {
-        return userDao.delete(id);
-    }
-
-
 }

@@ -10,6 +10,7 @@ public interface ActivityRepository {
     List<Activity> getAll();
     void add(Activity activity);
     int count();
-    void delete(int id);
+    boolean delete(int id);
     void update(Activity activity);
+    Long getLatestActivityId();
 }

@@ -23,7 +23,7 @@ public class AdminServlet extends HttpServlet {
 
         switch (path) {
             case "/dashboard":
-                int numberOfUsers = userService.count();
+                int numberOfUsers = userService.numberOfUsers ();
                 int numberOfActivities = activityService.count();
                 int numberOfExercice = exerciceService.count();
 

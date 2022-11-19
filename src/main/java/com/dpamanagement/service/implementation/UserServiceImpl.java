@@ -11,8 +11,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     UserRepository userRepo = new UserRepositoryImpl () ;
     @Override
-    public Users add(Users user) {
-        return userRepo.add(user);
+    public Users addUser(Users user) {
+        return userRepo.addUser(user);
     }
 
     @Override
@@ -21,36 +21,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List < Users > getAll ( ) {
-        System.out.println ("this is service" );
-        return userRepo.getAll();
+    public List < Users > getAllUsers ( ) {return userRepo.getAllUsers ();}
+
+    @Override
+    public List < Role > getAllRole ( ) {return userRepo.getAllRole();}
+
+    @Override
+    public List < Users > gitAllUsersByRoleName (String roleName ) {return userRepo.getAllUserByRoleName (roleName);}
+
+    @Override
+    public int numberOfUsers ( ) {
+        return userRepo.numberOfUsers();
     }
 
     @Override
-    public List < Role > getAllRole ( ) {
-        return userRepo.getAllRole();
-    }
+    public void updateUser ( Users user ) {userRepo.updateUser(user);}
 
     @Override
-    public List < Users > getAllParticipant ( ) {
-        return userRepo.getAllParticipant ();
-    }
-
-    @Override
-    public int count ( ) {
-        return userRepo.count();
-    }
-
-    @Override
-    public void update ( Users user ) {
-        userRepo.update(user);
-    }
-
-    @Override
-    public boolean delete ( int id ) {
-        return userRepo.delete(id);
+    public boolean deleteUserById ( int id ) {
+        return userRepo.deleteUserById(id);
     }
 }
-
-
-

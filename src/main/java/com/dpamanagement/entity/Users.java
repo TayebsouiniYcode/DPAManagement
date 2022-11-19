@@ -5,6 +5,10 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+/*
+    Définit qu’une classe est une entité. Le nom de l’entité est donné
+    par l’attribut name (en son absence le nom de l’entité correspond au nom de la classe).
+ */
 @Table(name = "users")
 public class Users implements Serializable {
     @Id
@@ -37,9 +41,38 @@ public class Users implements Serializable {
     @JoinColumn(name = "idRole")
     private Role role;
 
-    public Users ( Long idResponsable ) {
-        this.id = idResponsable;
+    //construct
+    public Users ( Long id ) {this.id = id;}
+    public Users() {}
+    public Users(String username, String password){
+        this.username = username;
+        this.password = password;
     }
+    public Users ( Long id , String firstName , String lastName , String phone , String username , String email , String password , boolean state , Role role , List < Activity > activities ) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.state = state;
+        this.role = role;
+        this.activities = activities;
+    }
+
+    public Users( Long id, String firstName, String lastName, String phone, String username, String email, String password, boolean state, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.state = state;
+        this.role = role;
+    }
+
 
     public void setId(Long idUser) {
         this.id = idUser;
@@ -117,13 +150,7 @@ public class Users implements Serializable {
     }
 
 
-    public Users() {
-    }
 
-    public Users(String username, String password){
-        this.username = username;
-        this.password = password;
-    }
 
     @OneToMany(mappedBy = "responsable")
     private List<Activity> activities;
@@ -136,30 +163,6 @@ public class Users implements Serializable {
         this.activities = activities;
     }
 
-    public Users ( Long id , String firstName , String lastName , String phone , String username , String email , String password , boolean state , Role role , List < Activity > activities ) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.state = state;
-        this.role = role;
-        this.activities = activities;
-    }
-
-    public Users( Long id, String firstName, String lastName, String phone, String username, String email, String password, boolean state, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.state = state;
-        this.role = role;
-    }
 
 
 
